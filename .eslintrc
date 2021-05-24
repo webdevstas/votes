@@ -7,6 +7,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ]
+    "plugin:@typescript-eslint/recommended",
+    "plugin:node/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-var-requires": 0
+  }
 }

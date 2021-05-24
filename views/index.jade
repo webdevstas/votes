@@ -1,5 +1,37 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .page
+    .page__header
+      .page__logo
+        a(href='https://www.xiag.ch' target='_blank')
+          img(src='/images/page-logo.png' alt='XIAG AG')
+      .page__task-name
+        | Poll website task: HTML example 1
+    .page__image
+      .page__task-title
+        | Poll website task: HTML example 2
+    .page__content.page__content--padding
+      .poll
+        table.poll-table
+          thead
+            tr
+              th Question:
+              th
+                input.input-text(type='text' value='Where do we go out tonight?')
+          tbody
+            tr
+              th Answer 1:
+              td
+                input.input-text(type='text' value='Yes')
+            tr
+              th Answer 2:
+              td
+                input.input-text(type='text' value='No')
+            tr
+              td.poll-table__plus
+                button.btn.btn--plus
+                  | +
+              td
+        button.btn.btn--start
+          | Start
