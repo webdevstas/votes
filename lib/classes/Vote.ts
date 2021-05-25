@@ -1,8 +1,9 @@
 const nodeCrypto = require('crypto')
+const { VotesModel } = require('../../models/votes')
 
 class Vote {
-    url: string;
-    question: string;
+    url: string
+    question: string
     answerVariants: string[]
 
     constructor(question: string, answerVariants: string[]) {
@@ -11,8 +12,9 @@ class Vote {
         this.url = nodeCrypto.createHash('sha256').digest('hex')
     }
 
-    saveToDb(): void {
-        console.log('Saved:', this)
+    async saveToDb() {
+       const vote = new VotesModel(this)
+        await vote.save()
     }
 }
 

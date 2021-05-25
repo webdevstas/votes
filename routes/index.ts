@@ -1,14 +1,21 @@
-import {NextFunction, Request, Response} from "express";
+import { Errback, NextFunction, Request, Response } from 'express'
 
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const Vote = require('../lib/classes/Vote')
 
 /* GET home page. */
-router.get('/', function(req: Request, res: Response, next: NextFunction) {
-  const vote = new Vote('Ты красавчик?', ['Yes', 'Yes'])
-  vote.saveToDb()
-  res.render('index', { title: 'Express' });
-});
+router.get('/', (req: Request, res: Response, next: NextFunction) => {
+    res.render('index', {title: 'Express'})
+})
 
-module.exports = router;
+router.post('/', (req: Request, res: Response, next: NextFunction) => {
+    const vote = new Vote(req.body.question, req.body.answerVariants)
+    vote.saveToDb().then(() => {
+        res.redirect(`/votes/${vote.url}`)
+    }).catch((err: Errback) => {
+        next(err)
+    })
+})
+
+module.exports = router

@@ -6,7 +6,7 @@
     "start:build": "tsc",
     "start:run": "node ./bin/www --production",
     "start": "concurrently npm:start:*",
-    "dev": "tsc -w & nodemon ./bin/www --development"
+    "dev": "concurrently \"tsc -w\" \"nodemon ./bin/www --development\""
   },
   "dependencies": {
     "@types/express": "^4.17.11",
