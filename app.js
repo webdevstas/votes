@@ -32,6 +32,9 @@ mongoose.connect(dbConnUrl, dbConnOpts).then(() => {
   console.log('DB connection succeed')
 })
 
+const db = mongoose.connection
+db.on('error', console.error.bind(console, 'CONNECTION ERROR'))
+
 const indexRouter = require('./routes/index');
 
 const app = express();
