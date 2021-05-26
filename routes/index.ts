@@ -6,11 +6,11 @@ const Vote = require('../lib/classes/Vote')
 
 /* GET home page. */
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    res.render('index', {title: 'Express'})
+    res.render('index', { title: 'Express' })
 })
 
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
-    const vote = new Vote(req.body.question, req.body.answerVariants)
+    const vote = new Vote(req.body.question, req.body.answer)
     vote.saveToDb().then(() => {
         res.redirect(`/votes/${vote.url}`)
     }).catch((err: Errback) => {

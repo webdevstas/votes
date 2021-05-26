@@ -4,4 +4,4 @@ const votesSchema = new mongoose.Schema({
     question: String,
     answerVariants: Array
 })
-module.exports.VotesModel = mongoose.model('VotesModel', votesSchema)
+module.exports.VotesModel = mongoose.model('votes', votesSchema)
