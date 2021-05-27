@@ -1,4 +1,39 @@
 extends layout
 
 block content
+    .page
+        .page__header
+            .page__task-name
+                | Poll website task: HTML example 2
+        .page__content.page__content--padding
+            .poll
+                h1=vote.question
+                .ex2-question
+                    .ex2-question__label
+                        | Your name:
+                    .ex2-question__input
+                        input.input-text(type='text')
+                    .ex2-question__answer
+                    for answer in vote.answerVariants
+                        label
+                            input(type='radio' name='answer' value=answer)
+                            |                         #{answer}
+                    .ex2-question__submit
+                        input(hidden value=vote.url)
+                        input.btn(type='submit' value='Submit')
+                h1
+                    | Results
+                br
+                table.ex2-table
+                    thead
+                        tr
+                            th Name
+                            for answer in vote.answerVariants
+                                th=answer
+                    tbody
+                        tr
+                            td(data-name)
+                            for answer in vote.answerVariants
+                                td(data-answer=answer)
 
+    script(src='/js/bundle.js')

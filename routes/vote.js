@@ -12,6 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const { VotesModel } = require('../models/votes');
 const express = require('express');
 const router = express.Router();
+const { Answer } = require('../lib/classes/Answer');
+const io = require('socket.io')({
+    cors: {
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST']
+    }
+});
+io.listen(1001);
 router.param('url', function (req, res, next, url) {
     return __awaiter(this, void 0, void 0, function* () {
         req.vote = yield VotesModel.findOne({ url: url }).catch((err) => {
@@ -21,6 +29,13 @@ router.param('url', function (req, res, next, url) {
     });
 });
 router.get('/:url', (req, res, next) => {
-    res.render('vote', req.vote);
+    io.on('connection', (socket) => {
+        console.log(socket.id);
+    });
+    const answer = new Answer('John', 'yes', req.params.url);
+    answer.getVariants().then(() => {
+        console.log(answer.generateNode());
+    });
+    res.render('vote', { vote: req.vote });
 });
 module.exports = router;
