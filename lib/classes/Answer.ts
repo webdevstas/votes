@@ -1,6 +1,6 @@
 const { VotesModel } = require('../../models/votes')
 
-interface SimpleNode {
+export interface SimpleNode {
     tag: string
     content: string | null
     attributes?: {
@@ -15,6 +15,10 @@ export class Answer {
     choose: string
     url: string
     availableAnswers: string[]
+    userAnswers: {
+        name: string,
+        choose: string
+    }[]
 
     constructor(name: string, choose: string, url: string) {
         this.name = name
@@ -22,11 +26,18 @@ export class Answer {
         this.url = url
     }
 
-    async getVariants(): Promise<void> {
-        const vote = await VotesModel.findOne({ url: this.url }, (err: Error) => {
-            if (err) throw new Error(err.message)
-        })
+    async getVoteData(): Promise<void> {
+        const vote = await VotesModel.findOne({ url: this.url })
         this.availableAnswers = vote.answerVariants
+        this.userAnswers = vote.userAnswers
+    }
+
+    async saveAnswer(): Promise<void> {
+        this.userAnswers.push({
+            name: this.name,
+            choose: this.choose
+        })
+        await VotesModel.updateOne({ url: this.url }, { userAnswers: this.userAnswers })
     }
 
     generateNode(): SimpleNode {

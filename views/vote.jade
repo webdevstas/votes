@@ -11,16 +11,17 @@ block content
                 .ex2-question
                     .ex2-question__label
                         | Your name:
-                    .ex2-question__input
-                        input.input-text(type='text')
-                    .ex2-question__answer
-                    for answer in vote.answerVariants
-                        label
-                            input(type='radio' name='answer' value=answer)
-                            |                         #{answer}
-                    .ex2-question__submit
-                        input(hidden value=vote.url)
-                        input.btn(type='submit' value='Submit')
+                    form#answer-form
+                        .ex2-question__input
+                            input.input-text(type='text' name='username')
+                        .ex2-question__answer
+                        for answer in vote.answerVariants
+                            label
+                                input(type='radio' name='answer' value=answer)
+                                |                         #{answer}
+                        .ex2-question__submit
+                            input(hidden value=vote.url name='url')
+                            input.btn(type='submit' value='Submit')
                 h1
                     | Results
                 br
@@ -30,10 +31,7 @@ block content
                             th Name
                             for answer in vote.answerVariants
                                 th=answer
-                    tbody
-                        tr
-                            td(data-name)
-                            for answer in vote.answerVariants
-                                td(data-answer=answer)
+                    tbody#answer-table
+
 
     script(src='/js/bundle.js')

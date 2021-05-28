@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const registerAnswerHandlers = require('../lib/handlers/answerHandler');
 const { VotesModel } = require('../models/votes');
 const express = require('express');
 const router = express.Router();
-const { Answer } = require('../lib/classes/Answer');
 const io = require('socket.io')({
     cors: {
         origin: 'http://localhost:3000',
@@ -30,11 +30,8 @@ router.param('url', function (req, res, next, url) {
 });
 router.get('/:url', (req, res, next) => {
     io.on('connection', (socket) => {
-        console.log(socket.id);
-    });
-    const answer = new Answer('John', 'yes', req.params.url);
-    answer.getVariants().then(() => {
-        console.log(answer.generateNode());
+        socket.join(req.params.url);
+        registerAnswerHandlers(io, socket);
     });
     res.render('vote', { vote: req.vote });
 });
