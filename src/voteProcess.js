@@ -11,11 +11,18 @@ function voteProcess() {
     });
     answerForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        socket.emit('answer', {
+        const submitData = {
             name: answerForm.querySelector('[name="username"]').value,
-            choose: answerForm.querySelector('[name="answer"]').value,
+            choose: answerForm.querySelector('[name="answer"]:checked').value,
             url: answerForm.querySelector('[name="url"]').value
-        });
+        };
+        if (document.cookie.includes(submitData.url)) {
+            alert('You already voted!');
+        }
+        else {
+            document.cookie = `${submitData.url}=voted`;
+            socket.emit('answer', submitData);
+        }
     });
 }
 exports.voteProcess = voteProcess;

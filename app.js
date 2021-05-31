@@ -1,10 +1,12 @@
+require('dotenv').config()
 const createError = require('http-errors')
 const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const mongoose = require('mongoose')
-require('dotenv').config()
+const startSocketConn = require('./lib/socket')
+
 
 let dbConnUrl = 'mongodb://localhost:27017/votes'
 let dbConnOpts = {
@@ -43,6 +45,12 @@ const app = express()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
+
+app.set('etag', false)
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store')
+    next()
+})
 
 app.use(logger('dev'))
 app.use(express.json())

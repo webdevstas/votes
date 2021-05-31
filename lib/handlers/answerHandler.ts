@@ -4,7 +4,7 @@ import { Server, Socket } from 'socket.io'
 interface AnswerPayload {
     name: string
     choose: string
-    url: string
+    url?: string
 }
 
 module.exports = (io: Server, socket: Socket) => {

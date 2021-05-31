@@ -1,41 +1,26 @@
 import { NextFunction, Request, Response } from 'express'
-import { Socket } from 'socket.io'
-import { Error } from 'mongoose'
-const registerAnswerHandlers = require('../lib/handlers/answerHandler')
+import { enableSocket } from '../lib/socket'
+
 const { VotesModel } = require('../models/votes')
 const express = require('express')
 const router = express.Router()
 
-const io = require('socket.io')({
-    cors: {
-        origin: 'http://localhost:3000',
-        methods: ['GET', 'POST']
-    }
-})
-io.listen(1001)
+let curVote: Vote | null = null
 
-interface reqWithVote {
-    vote: {
-        url: string
-        question: string
-        answerVariants: string[]
-    }
-}
-
-router.param('url', async function (req: Request & reqWithVote, res: Response, next: NextFunction, url: string) {
-    req.vote = await VotesModel.findOne({ url: url }).catch((err: Error) => {
-        next(err)
+router.param('url', async function (req: Request & ReqWithVote, res: Response, next: NextFunction, url: string) {
+    await VotesModel.findOne({ url: url }).then((data: Vote) => {
+        req.vote = data
+        next()
+    }).catch(() => {
+        next({ status: 404 })
     })
-    next()
 })
 
-router.get('/:url', (req: Request & reqWithVote, res: Response, next: NextFunction) => {
-    io.on('connection', (socket: Socket) => {
-        socket.join(req.params.url)
-        registerAnswerHandlers(io, socket)
-    })
-
+router.get('/:url', (req: Request & ReqWithVote, res: Response) => {
+    curVote = req.vote
     res.render('vote', { vote: req.vote })
 })
+
+enableSocket(curVote)//TODO: запуск после получения данных из БД
 
 module.exports = router

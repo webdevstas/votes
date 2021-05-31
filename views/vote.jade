@@ -2,9 +2,6 @@ extends layout
 
 block content
     .page
-        .page__header
-            .page__task-name
-                | Poll website task: HTML example 2
         .page__content.page__content--padding
             .poll
                 h1=vote.question
@@ -13,7 +10,7 @@ block content
                         | Your name:
                     form#answer-form
                         .ex2-question__input
-                            input.input-text(type='text' name='username')
+                            input.input-text(type='text' name='username' required)
                         .ex2-question__answer
                         for answer in vote.answerVariants
                             label
@@ -32,6 +29,8 @@ block content
                             for answer in vote.answerVariants
                                 th=answer
                     tbody#answer-table
+
+
 
 
     script(src='/js/bundle.js')

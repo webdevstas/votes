@@ -4,9 +4,8 @@ const express = require('express')
 const router = express.Router()
 const Vote = require('../lib/classes/Vote')
 
-/* GET home page. */
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    res.render('index', { title: 'Express' })
+    res.render('index', {})
 })
 
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
