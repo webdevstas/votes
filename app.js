@@ -5,30 +5,29 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const mongoose = require('mongoose')
-const startSocketConn = require('./lib/socket')
+const cors = require('cors')
 
-
-let dbConnUrl = 'mongodb://localhost:27017/votes'
+let dbConnUrl = null
 let dbConnOpts = {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }
 
-// if (process.env.NODE_ENV === 'production') {
-//   dbConnUrl = process.env.PROD_DB_STRING
-//   const prodOpts = {
-//     user: process.env.PROD_DB_USER,
-//     pass: process.env.PROD_DB_PWD
-//   }
-//   Object.assign(dbConnOpts, prodOpts)
-// } else {
-//   dbConnUrl = process.env.DEV_DB_STRING
-//   const devOpts = {
-//     user: process.env.DEV_DB_USER,
-//     pass: process.env.DEV_DB_PWD
-//   }
-//   Object.assign(dbConnOpts, devOpts)
-// }
+if (process.env.NODE_ENV === 'production') {
+  dbConnUrl = process.env.PROD_DB_STRING
+  const prodOpts = {
+    user: process.env.PROD_DB_USER,
+    pass: process.env.PROD_DB_PWD
+  }
+  Object.assign(dbConnOpts, prodOpts)
+} else {
+  dbConnUrl = process.env.DEV_DB_STRING
+  const devOpts = {
+    user: process.env.DEV_DB_USER,
+    pass: process.env.DEV_DB_PWD
+  }
+  Object.assign(dbConnOpts, devOpts)
+}
 
 mongoose.connect(dbConnUrl, dbConnOpts).then(() => {
     console.log('DB connection succeed')

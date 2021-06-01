@@ -9,13 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const socket_1 = require("../lib/socket");
 const { VotesModel } = require('../models/votes');
 const express = require('express');
 const router = express.Router();
-let curVote = null;
+const registerAnswerHandlers = require('../lib/handlers/answerHandler');
+const initVoteHandler = require('../lib/handlers/initVoteHandler');
+const io = require('socket.io')({
+    cors: {
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST']
+    }
+});
+io.listen(1001);
+let voteUrl = null;
 router.param('url', function (req, res, next, url) {
     return __awaiter(this, void 0, void 0, function* () {
+        voteUrl = req.params.url;
         yield VotesModel.findOne({ url: url }).then((data) => {
             req.vote = data;
             next();
@@ -25,8 +34,10 @@ router.param('url', function (req, res, next, url) {
     });
 });
 router.get('/:url', (req, res) => {
-    curVote = req.vote;
     res.render('vote', { vote: req.vote });
 });
-socket_1.enableSocket(curVote); //TODO: запуск после получения данных из БД
+io.on('connect', (socket) => {
+    registerAnswerHandlers(io, socket);
+    initVoteHandler(io, socket, voteUrl);
+});
 module.exports = router;

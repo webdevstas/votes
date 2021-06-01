@@ -5,11 +5,13 @@ const TerserWebpackPlugin = require('terser-webpack-plugin')
 module.exports = {
     context: path.resolve(__dirname),
     mode: 'development',
-    entry: ['@babel/polyfill', '/src/index.js'],
+    entry: {
+        'index': "@babel/polyfill",
+        'newVote': '/src/newVote.js',
+        'voteProcess': '/src/voteProcess.js'
+    },
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'public/js'),
-        publicPath: ''
+        path: path.resolve(__dirname, 'public/js/'),
     },
     optimization: {
         minimizer:[

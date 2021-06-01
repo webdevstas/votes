@@ -1,24 +1,11 @@
 const { VotesModel } = require('../../models/votes')
 
-export interface SimpleNode {
-    tag: string
-    content: string | null
-    attributes?: {
-        name: string,
-        value: string | number
-    }
-    childNodes: SimpleNode[] | null
-}
-
 export class Answer {
     name: string
     choose: string
     url: string
     availableAnswers: string[]
-    userAnswers: {
-        name: string,
-        choose: string
-    }[]
+    userAnswers: UserAnswer[]
 
     constructor(name: string, choose: string, url: string) {
         this.name = name

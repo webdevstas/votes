@@ -4,7 +4,7 @@ const express = require('express')
 const router = express.Router()
 const Vote = require('../lib/classes/Vote')
 
-router.get('/', (req: Request, res: Response, next: NextFunction) => {
+router.get('/', (req: Request, res: Response) => {
     res.render('index', {})
 })
 

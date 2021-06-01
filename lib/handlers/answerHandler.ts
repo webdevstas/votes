@@ -1,14 +1,8 @@
 import { Answer } from '../classes/Answer'
 import { Server, Socket } from 'socket.io'
 
-interface AnswerPayload {
-    name: string
-    choose: string
-    url?: string
-}
-
 module.exports = (io: Server, socket: Socket) => {
-    const createAnswer = (payload: AnswerPayload) => {
+    const createAnswer = (payload: UserAnswer) => {
         const answer = new Answer(payload.name, payload.choose, payload.url)
         answer.getVoteData()
             .then(() => {
