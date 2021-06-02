@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require('dotenv').config();
 const { VotesModel } = require('../models/votes');
 const express = require('express');
 const router = express.Router();
@@ -16,7 +17,7 @@ const registerAnswerHandlers = require('../lib/handlers/answerHandler');
 const initVoteHandler = require('../lib/handlers/initVoteHandler');
 const io = require('socket.io')({
     cors: {
-        origin: 'http://localhost:3000',
+        origin: 'http://127.0.0.1',
         methods: ['GET', 'POST']
     }
 });

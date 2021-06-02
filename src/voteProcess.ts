@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client'
+require('dotenv').config()
 
-const socket = io('http://localhost:1001')
+const socket = io(`${process.env.HOSTNAME}:1001`)
 
 const answerTable = document.getElementById('answer-table')
 const answerForm = document.getElementById('answer-form')

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const socket_io_client_1 = require("socket.io-client");
-const socket = socket_io_client_1.io('http://localhost:1001');
+const socket = socket_io_client_1.io('http://127.0.0.1:1001');
 const answerTable = document.getElementById('answer-table');
 const answerForm = document.getElementById('answer-form');
 socket.on('render', (node) => {

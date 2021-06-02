@@ -3,9 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start:build": "tsc",
-    "start:run": "node ./bin/www --production",
-    "start": "webpack & concurrently npm:start:*",
+    "start": "tsc & webpack & pm2-runtime ./bin/www",
     "dev": "concurrently \"tsc -w\" \"webpack -w\" \"nodemon ./bin/www --development\""
   },
   "dependencies": {
@@ -26,20 +24,20 @@
     "morgan": "~1.9.1",
     "socket.io": "^4.1.2",
     "socket.io-client": "^4.1.2",
-    "typescript": "^4.2.4"
-  },
-  "devDependencies": {
+    "typescript": "^4.2.4",
+    "terser-webpack-plugin": "^5.1.2",
+    "webpack": "^5.37.1",
+    "webpack-cli": "^4.7.0",
+    "babel-loader": "^8.2.2",
     "@babel/core": "^7.14.3",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.14.2",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
-    "@typescript-eslint/parser": "^4.24.0",
-    "babel-loader": "^8.2.2",
+    "@typescript-eslint/parser": "^4.24.0"
+  },
+  "devDependencies": {
     "eslint": "^7.27.0",
     "eslint-plugin-node": "^11.1.0",
-    "nodemon": "^2.0.7",
-    "terser-webpack-plugin": "^5.1.2",
-    "webpack": "^5.37.1",
-    "webpack-cli": "^4.7.0"
+    "nodemon": "^2.0.7"
   }
 }

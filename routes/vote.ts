@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { Socket } from 'socket.io'
 
-const cors = require('cors')
-
 require('dotenv').config()
 const { VotesModel } = require('../models/votes')
 const express = require('express')
@@ -12,7 +10,7 @@ const initVoteHandler = require('../lib/handlers/initVoteHandler')
 const io = require('socket.io')({
     cors: {
         origin: process.env.HOSTNAME,
-        methods: ['GET', 'POST', 'OPTIONS']
+        methods: ['GET', 'POST']
     }
 })
 io.listen(1001)
@@ -29,12 +27,7 @@ router.param('url', async function (req: Request & ReqWithVote, res: Response, n
     })
 })
 
-router.get('/:url', cors(
-    {
-        origin: 'http://localhost',
-        optionsSuccessStatus: 200
-    }
-), (req: Request & ReqWithVote, res: Response) => {
+router.get('/:url', (req: Request & ReqWithVote, res: Response) => {
     res.render('vote', { vote: req.vote })
 })
 
